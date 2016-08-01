@@ -8,15 +8,31 @@
     android:weightSum="1">
 
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tank name"
-        android:textSize="20dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/input_tank_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tank name"
+            android:textSize="20dp" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/input_tank_type"
+            android:layout_height="wrap_content"
+            android:hint="Tank type"
+            android:textSize="20dp" />
+    </android.support.design.widget.TextInputLayout>
+
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add new tank"/>
+        android:onClick="saveTank"
+        android:text="Save"/>
 </LinearLayout>

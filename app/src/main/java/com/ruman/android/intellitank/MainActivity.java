@@ -1,14 +1,15 @@
 package com.ruman.android.intellitank;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.ruman.android.intellitank.fragments.TankList;
 
 public class MainActivity extends AppCompatActivity implements TankList.OnFragmentInteractionListener {
+
+    static final int NEW_TANK_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,17 +20,26 @@ public class MainActivity extends AppCompatActivity implements TankList.OnFragme
             if(savedInstanceState != null) {
                 return;
             }
-            TankList tanks = new TankList();
+            TankList tankFrag = new TankList();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.tank_list_container, tanks).commit();
+                    .add(R.id.tank_list_container, tankFrag).commit();
         }
 
     }
 
     public void createNewTank(View w) {
-        System.out.println("Create new tank triggered");
         Intent newTank = new Intent(this, NewTankActivity.class);
-        startActivity(newTank);
+        startActivityForResult(newTank, NEW_TANK_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == NEW_TANK_REQUEST && resultCode == RESULT_OK) {
+            Bundle retvals = data.getExtras();
+            Tank nTank = retvals.getParcelable("tank");
+            System.out.println(nTank.getTankName());
+            System.out.println(nTank.getTankType());
+        }
     }
 
     @Override
