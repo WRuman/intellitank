@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements TankList.OnFragme
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == NEW_TANK_REQUEST && resultCode == RESULT_OK) {
             Bundle retvals = data.getExtras();
-            Tank nTank = retvals.getParcelable("tank");
+            Tank nTank = retvals.getParcelable("Tank");
             System.out.println(nTank.getTankName());
             System.out.println(nTank.getTankType());
         }

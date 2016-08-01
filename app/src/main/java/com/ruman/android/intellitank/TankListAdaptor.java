@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by pentondev on 8/1/16.
+ * Created by will.ruman on 8/1/16.
  */
 public class TankListAdaptor extends ArrayAdapter {
 

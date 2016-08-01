@@ -26,7 +26,7 @@ public class NewTankActivity extends AppCompatActivity {
     public void saveTank(View v) {
         Intent retval = new Intent();
         Tank t = new Tank(tankName.getText().toString(), tankType.getText().toString());
-        retval.putExtra("tank", t);
+        retval.putExtra("Tank", t);
         setResult(RESULT_OK, retval);
         finish();
     }

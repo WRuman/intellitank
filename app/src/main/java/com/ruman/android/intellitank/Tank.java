@@ -48,7 +48,7 @@ public class Tank implements Parcelable {
         parcel.writeString(tankType);
     }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+    public static final Parcelable.Creator<Tank> CREATOR = new Parcelable.Creator<Tank>() {
         public Tank createFromParcel(Parcel in ) {
             return new Tank(in);
         }
