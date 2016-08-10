@@ -1,6 +1,8 @@
 package com.ruman.android.intellitank.fragments;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.ruman.android.intellitank.R;
 import com.ruman.android.intellitank.Tank;
+import com.ruman.android.intellitank.persistence.TankStoreContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +25,27 @@ public class TankList extends ListFragment {
         // Required empty public constructor
     }
 
+    private SQLiteDatabase getDB(Context ctx) {
+        TankStoreContract tankCon = new TankStoreContract();
+        TankStoreContract.TankStoreDbHelper dbHelper = tankCon.new TankStoreDbHelper(ctx);
+        return dbHelper.getReadableDatabase();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tankList = new ArrayList<Tank>();
-        tankList.add(new Tank("Living Room", "Saltwater"));
-        tankList.add(new Tank("Master bedroom", "Freshwater"));
-        tankList.add(new Tank("Guest bedroom", "Brackish"));
-        tankListAdaptor = new TankListAdaptor(getActivity(), tankList);
+        SQLiteDatabase db = getDB(getContext());
+        String[] cols = {
+                "_id",
+                TankStoreContract.TankTable.COL_TANK_NAME,
+                TankStoreContract.TankTable.COL_TANK_TYPE,
+                TankStoreContract.TankTable.COL_TANK_ID
+        };
+        String sort = TankStoreContract.TankTable.COL_TANK_NAME + " asc";
+        System.out.println(sort);
+        Cursor tankCursor = db.query(TankStoreContract.TankTable.TABLE_NAME, cols, null, null, null, null, sort, null);
+
+        tankListAdaptor = new TankListAdaptor(getActivity(), tankCursor, 0);
     }
 
     @Override

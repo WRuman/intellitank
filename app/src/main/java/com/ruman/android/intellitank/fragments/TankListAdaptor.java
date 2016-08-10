@@ -2,21 +2,25 @@ package com.ruman.android.intellitank.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.ruman.android.intellitank.R;
 import com.ruman.android.intellitank.Tank;
+import com.ruman.android.intellitank.persistence.TankStoreContract;
 
 import java.util.List;
 
 /**
  * Created by will.ruman on 8/1/16.
  */
-public class TankListAdaptor extends ArrayAdapter {
+public class TankListAdaptor extends CursorAdapter {
 
     private Context context;
     private ViewHolder vHold;
@@ -26,30 +30,25 @@ public class TankListAdaptor extends ArrayAdapter {
         TextView tankType;
     }
 
-    public TankListAdaptor(Context context, List tanks) {
-        super(context, android.R.layout.simple_list_item_2, tanks);
+    public TankListAdaptor(Context context, Cursor cursor, int flags) {
+        super(context, cursor, flags);
         this.context = context;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(R.layout.tank_list_item, parent, false);
+    }
 
-        // First showing, do our view lookups
-        if(convertView == null) {
-            LayoutInflater inflator = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = inflator.inflate(R.layout.tank_list_item, null);
-            vHold = new ViewHolder();
-            vHold.tankName = (TextView) convertView.findViewById(R.id.tank_list_item_name);
-            vHold.tankType = (TextView) convertView.findViewById(R.id.tank_list_item_type);
-            convertView.setTag(vHold);
-        } else {
-            // Use existing view data
-            vHold = (ViewHolder) convertView.getTag();
-        }
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+        vHold = new ViewHolder();
+        vHold.tankName = (TextView) view.findViewById(R.id.tank_list_item_name);
+        vHold.tankType = (TextView) view.findViewById(R.id.tank_list_item_type);
+        String nameCol = TankStoreContract.TankTable.COL_TANK_NAME;
+        String typeCol = TankStoreContract.TankTable.COL_TANK_TYPE;
 
-        Tank tank = (Tank) getItem(position);
-        vHold.tankName.setText(tank.getTankName());
-        vHold.tankType.setText(tank.getTankType());
-
-        return convertView;
+        vHold.tankName.setText(cursor.getString(cursor.getColumnIndex(nameCol)));
+        vHold.tankType.setText(cursor.getString(cursor.getColumnIndex(typeCol)));
     }
 }

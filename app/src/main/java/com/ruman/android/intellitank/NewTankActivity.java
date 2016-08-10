@@ -57,6 +57,7 @@ public class NewTankActivity extends AppCompatActivity {
         db.insert(TankStoreContract.TankTable.TABLE_NAME,
                   null,
                   vals);
+        db.close();
         retval.putExtra("Tank", t);
         setResult(RESULT_OK, retval);
         finish();
