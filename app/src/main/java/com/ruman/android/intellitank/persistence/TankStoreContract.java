@@ -26,11 +26,20 @@ public class TankStoreContract {
 
     public TankStoreContract() {}
 
+    private TankStoreDbHelper dbHelperInstance;
+
     public static abstract class TankTable implements BaseColumns {
         public static final String TABLE_NAME = "tanks";
         public static final String COL_TANK_ID = "id";
         public static final String COL_TANK_NAME = "name";
         public static final String COL_TANK_TYPE = "type";
+    }
+
+    public TankStoreDbHelper getDBHelper(Context ctx) {
+        if(dbHelperInstance == null) {
+            dbHelperInstance = new TankStoreDbHelper(ctx);
+        }
+        return dbHelperInstance;
     }
 
     public class TankStoreDbHelper extends SQLiteOpenHelper {

@@ -10,6 +10,7 @@ import com.ruman.android.intellitank.fragments.tank_list.TankList;
 public class MainActivity extends AppCompatActivity implements TankList.OnFragmentInteractionListener {
 
     static final int NEW_TANK_REQUEST = 1;
+    private TankList tankFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements TankList.OnFragme
             if(savedInstanceState != null) {
                 return;
             }
-            TankList tankFrag = new TankList();
+            tankFrag = new TankList();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.tank_list_container, tankFrag).commit();
         }
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements TankList.OnFragme
             Bundle retvals = data.getExtras();
             Tank nTank = retvals.getParcelable("Tank");
             if(nTank != null) {
-                System.out.println(nTank.getTankName());
-                System.out.println(nTank.getTankType());
+                // Signal to the tank list that it should check the db for a new tank
+                tankFrag.onNewTankAdded();
             }
         }
     }

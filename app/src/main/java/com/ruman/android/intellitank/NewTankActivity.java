@@ -18,31 +18,44 @@ public class NewTankActivity extends AppCompatActivity {
 
     EditText tankName;
     Spinner tankType;
-    TankStoreContract dbContract;
+    SQLiteDatabase db;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_tank);
-
+    private void initFormFields() {
         tankName = (EditText) findViewById(R.id.input_tank_name);
         tankType = (Spinner) findViewById(R.id.input_tank_type);
+
+        // Spinner adapter
         ArrayAdapter<CharSequence> spinadapter = ArrayAdapter.createFromResource(this,
                 R.array.tank_types_array,
                 android.R.layout.simple_spinner_item);
         spinadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tankType.setAdapter(spinadapter);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_tank);
+        initFormFields();
 
         // enable up icon
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        dbContract = new TankStoreContract();
+        db = getDb();
     }
 
-    private SQLiteDatabase getDb(Context ctx) {
-        SQLiteOpenHelper dbHelper = dbContract.new TankStoreDbHelper(ctx);
+    private SQLiteDatabase getDb() {
+        TankStoreContract tcon = new TankStoreContract();
+        SQLiteOpenHelper dbHelper = tcon.getDBHelper(this);
         return dbHelper.getWritableDatabase();
+    }
+
+    private ContentValues getTankInsertValues(Tank t) {
+        ContentValues vals = new ContentValues();
+        vals.put(TankStoreContract.TankTable.COL_TANK_NAME, t.getTankName());
+        vals.put(TankStoreContract.TankTable.COL_TANK_TYPE, t.getTankType());
+        return vals;
     }
 
     public void saveTank(View v) {
@@ -50,15 +63,12 @@ public class NewTankActivity extends AppCompatActivity {
         String newTankName = tankName.getText().toString();
         String newTankType = tankType.getSelectedItem().toString();
         Tank t = new Tank(newTankName, newTankType);
-        SQLiteDatabase db = getDb(v.getContext());
-        ContentValues vals = new ContentValues();
-        vals.put(TankStoreContract.TankTable.COL_TANK_NAME, newTankName);
-        vals.put(TankStoreContract.TankTable.COL_TANK_TYPE, newTankType);
+        retval.putExtra("Tank", t);
+
         db.insert(TankStoreContract.TankTable.TABLE_NAME,
                   null,
-                  vals);
+                  getTankInsertValues(t));
         db.close();
-        retval.putExtra("Tank", t);
         setResult(RESULT_OK, retval);
         finish();
     }

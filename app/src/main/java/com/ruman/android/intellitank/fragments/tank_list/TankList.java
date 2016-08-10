@@ -5,9 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.ruman.android.intellitank.R;
 import com.ruman.android.intellitank.persistence.TankStoreContract;
@@ -16,8 +19,8 @@ import java.util.List;
 
 public class TankList extends ListFragment {
     private OnFragmentInteractionListener mListener;
-    private List tankList;
     private TankListAdaptor tankListAdaptor;
+    private SQLiteDatabase db;
 
     public TankList() {
         // Required empty public constructor
@@ -29,10 +32,7 @@ public class TankList extends ListFragment {
         return dbHelper.getReadableDatabase();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        SQLiteDatabase db = getDB(getContext());
+    private Cursor getCursor(SQLiteDatabase db) {
         String[] cols = {
                 "_id",
                 TankStoreContract.TankTable.COL_TANK_NAME,
@@ -40,7 +40,14 @@ public class TankList extends ListFragment {
                 TankStoreContract.TankTable.COL_TANK_ID
         };
         String sort = TankStoreContract.TankTable.COL_TANK_NAME + " asc";
-        Cursor tankCursor = db.query(TankStoreContract.TankTable.TABLE_NAME, cols, null, null, null, null, sort, null);
+        return db.query(TankStoreContract.TankTable.TABLE_NAME, cols, null, null, null, null, sort, null);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        db = getDB(getContext());
+        Cursor tankCursor = getCursor(db);
 
         tankListAdaptor = new TankListAdaptor(getActivity(), tankCursor, 0);
     }
@@ -49,6 +56,7 @@ public class TankList extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setListAdapter(tankListAdaptor);
+        getListView().setOnItemLongClickListener(new TankLongClickListener());
     }
 
     @Override
@@ -74,6 +82,22 @@ public class TankList extends ListFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private class TankLongClickListener implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adv, View v, int pos, long id) {
+            Log.d("long clicked", "pos: " + pos);
+            Toast.makeText(getActivity(), "That's a long click!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+    }
+
+    /**
+     * Signals that the tank list should check the database for new tanks
+     */
+    public void onNewTankAdded() {
+        tankListAdaptor.changeCursor(getCursor(db));
     }
 
     public interface OnFragmentInteractionListener {
