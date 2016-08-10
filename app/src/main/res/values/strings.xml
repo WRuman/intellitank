@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Intellitank</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="input_tank_name_hint">Tank name</string>
+    <string name="button_add_tank_text">+ Add Tank</string>
+    <string name="frag_tank_list_no_data">You haven\'t added any tanks yet</string>
+    <string name="frag_tank_list_item_name">Tank name</string>
+    <string name="frag_tank_list_item_type">Tank type</string>
+    <string-array name="tank_types_array">
+        <item>Freshwater</item>
+        <item>Saltwater</item>
+        <item>Brackish</item>
+    </string-array>
 </resources>

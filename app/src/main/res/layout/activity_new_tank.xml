@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="5dp"
     tools:context="com.ruman.android.intellitank.NewTankActivity"
     android:weightSum="1">
 
@@ -11,23 +12,17 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/input_tank_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tank name"
-            android:textSize="20dp" />
+            android:hint="@string/input_tank_name_hint"
+            android:textSize="20sp" />
     </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
+    <Spinner
+        android:id="@+id/input_tank_type"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:layout_width="match_parent"
-            android:id="@+id/input_tank_type"
-            android:layout_height="wrap_content"
-            android:hint="Tank type"
-            android:textSize="20dp" />
-    </android.support.design.widget.TextInputLayout>
+        android:layout_height="wrap_content" />
 
 
     <Button

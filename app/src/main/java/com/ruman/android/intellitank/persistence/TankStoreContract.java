@@ -12,14 +12,15 @@ public class TankStoreContract {
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String INT_TYPE = " INTEGER";
+    private static final String NOT_NULL = " NOT NULL";
     private static final String INT_PRIMARY_KEY = " INTEGER PRIMARY KEY";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE =
             "CREATE TABLE " + TankTable.TABLE_NAME + " (" +
             TankTable._ID + INT_PRIMARY_KEY + COMMA_SEP +
             TankTable.COL_TANK_ID + INT_TYPE + COMMA_SEP +
-            TankTable.COL_TANK_NAME + TEXT_TYPE + COMMA_SEP +
-            TankTable.COL_TANK_TYPE + TEXT_TYPE + ")";
+            TankTable.COL_TANK_NAME + TEXT_TYPE + NOT_NULL + COMMA_SEP +
+            TankTable.COL_TANK_TYPE + TEXT_TYPE + NOT_NULL + ")";
     private static final String SQL_DROP =
             "DROP TABLE IF EXISTS " + TankTable.TABLE_NAME;
 
