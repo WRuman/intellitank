@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ruman.android.intellitank.R;
-import com.ruman.android.intellitank.TankListAdaptor;
 import com.ruman.android.intellitank.Tank;
 
 import java.util.ArrayList;

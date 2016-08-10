@@ -1,4 +1,4 @@
-package com.ruman.android.intellitank;
+package com.ruman.android.intellitank.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.ruman.android.intellitank.R;
+import com.ruman.android.intellitank.Tank;
 
 import java.util.List;
 
