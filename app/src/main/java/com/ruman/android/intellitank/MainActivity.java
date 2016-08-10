@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.ruman.android.intellitank.fragments.TankList;
+import com.ruman.android.intellitank.fragments.tank_list.TankList;
 
 public class MainActivity extends AppCompatActivity implements TankList.OnFragmentInteractionListener {
 

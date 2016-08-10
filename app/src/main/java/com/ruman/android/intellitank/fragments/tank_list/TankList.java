@@ -1,4 +1,4 @@
-package com.ruman.android.intellitank.fragments;
+package com.ruman.android.intellitank.fragments.tank_list;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ruman.android.intellitank.R;
-import com.ruman.android.intellitank.Tank;
 import com.ruman.android.intellitank.persistence.TankStoreContract;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TankList extends ListFragment {
@@ -42,7 +40,6 @@ public class TankList extends ListFragment {
                 TankStoreContract.TankTable.COL_TANK_ID
         };
         String sort = TankStoreContract.TankTable.COL_TANK_NAME + " asc";
-        System.out.println(sort);
         Cursor tankCursor = db.query(TankStoreContract.TankTable.TABLE_NAME, cols, null, null, null, null, sort, null);
 
         tankListAdaptor = new TankListAdaptor(getActivity(), tankCursor, 0);

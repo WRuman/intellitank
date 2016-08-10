@@ -1,4 +1,4 @@
-package com.ruman.android.intellitank.fragments;
+package com.ruman.android.intellitank.fragments.tank_list;
 
 import android.app.Activity;
 import android.content.Context;
